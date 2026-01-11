@@ -1,0 +1,58 @@
+/**
+ * @page architecture DeSEm Architecture
+ *
+ * The following diagram shows the relations between the different packages for the DeSem practical work:
+ * @image html package-relations.png
+ *
+ * @section interfaces Interfaces
+ * This package contains all interfaces (abstract classes in the terminology of C++) that abstract the hardware components of the two platforms
+ * (Desktop simulator and real embedded device) and the classes to create instances of them and build the relations between them.
+ *
+ * The following classes are part of this package:
+ * - IPhyTransceiver : Interface in order to send and receive frames using either the NRF transceiver on the embedded device or the Mesh Simulator on the simulated device.
+ * - IPhyObserver : Base class for all classes that have to get notified about the arrival of new frames and the send status from the class implementing the IPhyObserver interface.
+ * - IMonochromeDisplay : Abstraction of the Monochrome Display API. Required and Optional display primitives enable hardware accelerated drawing on displays supporting these drawing methods.
+ * - IJoystick : Interface in order to initialize the joystick (new navigation switch) and to get the active joystick position.
+ * - IJoystickObserver : Interface or base class for all classes that have to get notified about changes in the joystick position.
+ *
+ * @section xf XF
+ * XF stands for eXecution Framework. The XF enables an asynchronous communication between the objects of a system without realtime operating system and offers the possibility to think and develop
+ * using finite state machines. For complex systems, the approach of finite state machines enables a better understanding of the problem and generally leads to a better solution with less errors than
+ * a sequential solution.
+ *
+ * The basic classes of the XF are the XFReactive and the XFEvent. An XFReactive can send and receive events (XFEvent based subclasses) and drive its internal state machine using these events. Additionally
+ * a XFReactive can schedule timers that will generate events for the XFReactive at the moment the timer expires.
+ *
+ * For more details about the xf package please find the _documentation.html_ file in the _xf/doxygen_ folder. 
+ *
+ * For an example on how to implement a state machine please refer to the **buttonmanager** example made in course. There
+ * you will find a class named _Blinker_. It contains a little state machine enabling and disabling an LED.
+ *
+ * @section trace Trace
+ * The trace package offers a simple way to write information to a debug port. In this case this is the UART2 of the STM32 microcontroller. The on-board ST-LINK programmer forwards the 
+ * messages over the USB cable to a virtual com port (VCP) on the host and thus the
+ * output can be examined using a standard terminal application using the following settings:
+ * - Port: Ex.: COM10, /dev/ttyUSB0, etc.
+ * - Baudrate: 115200
+ * - Parity: none
+ * - Bits: 8
+ * - Stopbits: 1
+ * - Flow Control: none
+ *
+ * @subsection linux_or_mac Linux or macOS
+ * To see for example on Linux the output send from the Embedded System via the serial port to the host PC, use _miniterm.py_ in a terminal. Enter the following 
+ * command to connect _miniterm.py_ to the ttyUSB0 virtual com port:
+ *
+ * @verbatim $ miniterm.py -p /dev/ttyUSB0 -b 115200 @endverbatim
+ *
+ * An alternative is _screen_ to show the output:
+ * @verbatim $ screen /dev/ttyUSB0 115200 @endverbatim
+ *
+ * The only thing you need to remember additionaly is the shortcuts you need to enter to leave _screen_:
+ *
+ * @verbatim Ctrl+A, k @endverbatim
+ * and then @verbatim y @endverbatim
+ *
+ * @subsection windows Windows
+ * On Windows you may use <a href="https://www.putty.org/">putty</a> to show the output from the serial port.
+ */

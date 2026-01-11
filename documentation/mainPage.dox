@@ -1,0 +1,55 @@
+/**
+ * @mainpage
+ * 
+ * Welcome to the DeSEm master course practical work. 
+ * 
+ * This documentation should help you during analysis, design, implementation and test of your DeseNet protocol stack.
+ * 
+ * Here we have some introductions in order to start developping:
+ * - @subpage devenv
+ * - @subpage architecture
+ * - @subpage meshsimsettings
+ * - @subpage sec_faq
+ * 
+ * In addition to this, we provide some interesting links to sites that might help you during the project:
+ * 
+ * - <a href="http://cplusplus.com/reference/">www.cplusplus.com</a> - Very complete C++ online reference.
+ * - <a href="http://www.mochima.com/tutorials/STL.html">www.mochima.com</a> - C++ STL (Standard Templates Library) introduction.
+ * - <a href="http://en.wikibooks.org/wiki/More_C%2B%2B_Idioms">C++ Idioms on Wikibooks.org</a> - Very good open book and resources about common used C++ idioms.
+ * 
+ * @section sensor_project_struct DeseNet Sensor Project Structure
+ * Following you can find some explanations about the project structure:
+ * 
+ * @subsection ide_folders Folders starting with IDE
+ * - <b>ide-qtcreator</b>: Contains Qt Creator project used in simulation environment
+ * - <b>ide-stm32cubeide</b>: STM32CubeIDE project used to work with the Embedded System hardware
+ *
+ * @subsection src_folder Src Folder Content
+ * The <i>src</i> folder contains source code used in Simulation and Embedded System environment.
+ * - <b>app</b>: Contains the DeseNet applications and the main file
+ * - <b>common</b>: Contains packages that are common to the Sensor and Gateway application
+ *   - common/<b>mdw</b>: Contains middleware (MDW) packages:
+ *     + clockwork: Classes for maintaining time
+ *     + containers: Container classes to store and handle data
+ *     + desent: Desent network protocol classes 
+ *     + gui: Platform independent graphical classes
+ *     + pool: Contains static object pool class to omit usage of heap
+ *     + trace: Package to output message text via UART, USB or other peripherals
+ *   - common/<b>platform</b>:
+ *     This projects supports multiple platforms. One is the real hardware and one 
+ *     represents a simulation environment simulating the hardware and the network communication:
+ *     + <b>nucleo-stm32l476rg</b>: Represents the real hardware, hence the Nucleo development board.
+ *     + <b>qt-meshsim</b>: Represents the simulation environment using the MeshSimulator (running on Windows, macOS and Linux).
+ *     + <b>platform-common</b>: Contains packages and files which are common for all platforms.
+ *
+ *     Each platform has a <i>board</i>, <i>desent</i> and <i>mcu</i> package:
+ *       - <b>board</b>: Contains board specific code (buttons, accelerometer, etc.)
+ *       - <b>desent</b>: The platform specific transeiver driver and time slot manager
+ *       - <b>mcu</b>: Microcontroller and peripheral specific code (UART, SPI, etc.)
+ * - <b>xf</b>: Contains the sources of the XF (e<b>X</b>ecution <b>F</b>ramework).
+ * 
+ * @section contact_hevs Contact
+ * If you have suggestions, comments, questions or you found an error inside the documentation, please write an email to 
+ * <a href="mailto:thomas.sterren@hevs.ch">thomas.sterren@hevs.ch</a>. So we can help you or update the documentation
+ * to remove mistakes.
+ */

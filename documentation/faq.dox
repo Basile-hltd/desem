@@ -1,0 +1,89 @@
+/**
+ * @page sec_faq Frequently asked Questions
+ *
+ * @section sec_faq Frequently asked Questions
+ *
+ * @subsection faq_general General
+ *
+ * **Q:** The DeseNet Sensor project is a large project. Could you tell me where to jump into the project?
+ *
+ * **A:** First you need to understand the specification of the network protocol. Then you can jump either
+ *    into reading the doxygen help of the sensor project or start examining the source files of
+ *    the project. You need to know how the <i>AbstractApplication</i> class works. The same for the <i>NetworkEntity</i>
+ *    and the <i>Beacon</i> class. Try to understand the code step by step. You are growing together with
+ *    the project!
+ *
+ * **Q:** The DeseNet Sensor project contains many source files. Could you tell me where is it best to start coding?
+ *
+ * **A:** Open the <i>desenet-sensor.pro</i> file located in 'sensor/ide-qtcreator/desenet-sensor' using Qt Creator and
+ *    put a breakpoint into the <i>AbstractApplication::svSyncRequest()</i> method. Compile the project. Start
+ *    and configure the MeshSimulator, start the TestBench. Then start debugging of your sensor
+ *    application. Because the <i>AccelerometerApplication</i> wants to get informed about arrival of beacons
+ *    from the TestBench, the debugger will stop on the breakpoint. Now you should add code to forward
+ *    the request to the <i>NetworkEntiy</i>, because the <i>NetworkEntity</i> handles all <i>svSyncRequests()</i>.
+ *
+ * @subsection faq_code Code Related
+ *
+ * **Q:** Why does the static method <i>NetworkEntity::instance()</i> not create a new instance of <i>NetworkEntity</i>
+ * when it gets called the first time?
+ *
+ * **A:** In Embedded Systems it is often not allowed to call _malloc_ or _new_ because of the usage of a static
+ * memory model. So the instance() method cannot call the new function to create a new instance. 
+ * 
+ * In the DeseNet project we decided to let the developer choose where to create the instances for the single 
+ * objects. Most of the single instances are created using the <i>Factory</i> class. The <i>NetworkEntity</i> instance is
+ * created as attribute in the <i>Net</i> class. The Net class is also a Singleton and gets created in the Factory.
+ *
+ * This means the <i>NetworkEntity</i> instance will start to live as soon as the <i>Net</i> instance gets created.  
+ *
+ * **Q:** When I am calling the static method <i>desenet::sensor::NetworkEntity::instance()</i> the program stops 
+ * exection after the call of the <i>assert()</i> function. 
+ *
+ * **A:** If the program stops on an <i>assert()</i> function, the expression given as parameter results to _false_. 
+ * This causes the program to stop execution.
+ * 
+ * For the <i>NetworkEntity::instance()</i> method it means that at the time of the method call no instance of the
+ * class was created. This is typically the case when the methods <i>NetworkEntity::instance()</i> gets called prior
+ * to the execution of the code _net().initialize(__SLOT_NUMBER)_ which is called in 
+ * _Factory::buildApplication()_.
+ *
+ * **Q:** Where is the single instance of _NetworkEntity_ living? I did not find it in the _Factory_ class!
+ *
+ * **A:** The _NetworkEntity_ is part of the _Net_ class and lives as attribute inside this class. The _NetworkEntity_
+ * instance gets created when the _Net_ instance gets created. After the creation and intialization of the _Net_
+ * instance the _NetworkEntity_ can be generally accessed from everywhere in the code using the 
+ * _NetworkEntity::instance()_ method.
+ *
+ * **Q:** The Olimex-Board simulator (MeshSim) shows always the same slot number. If I change the constant
+ *        DESENET_SLOT_NUMBER in 'linux-meshsim/platform-config.h', the value is not taken into account!
+ *        How do I change the slot number when using the Olimex-Board simulator?
+ *
+ * **A:** When using the Olimex-Board simulator there is an option to change the slot number by application
+ * argument. With the '-s' argument you can change the slot number of the application and the value
+ * takes presedents of the value provided in the 'platform-config.h' file.
+ * Got to the <i>Build & Run</i> configurations of Qt Creator and change there the '-s' value for the application. The
+ * value given there will be used as slot number and also shown on the Olimex-Board simulator view.
+ *
+ * Example configuration for starting sensor application as sensor #20:
+ * @image html qt-creator-meshsim-conf-nbr-20.png
+ *
+ * @subsection faq_testbench TestBench Related
+ *
+ * **Q:** I cannot start the DeseNet TestBench application! What could be the problem? 
+ *
+ * **A:** A problem could be that IPv6 is enabled on the Ubunu installation. Try to disable IPv6 by adding
+ * the following lines to the /etc/sysctl.conf file:
+ * @code
+ *    net.ipv6.conf.all.disable_ipv6 = 1
+ *    net.ipv6.conf.default.disable_ipv6 = 1
+ *    net.ipv6.conf.lo.disable_ipv6 = 1
+ * @endcode
+ *
+ * reload sysctl by entering the following command in a terminal window:
+ * @verbatim $ sudo sysctl -p  @endverbatim
+ * IPv6 should now be disabled and the DeseNet TestBench application should start now. 
+ * 
+ * For more information on this topic see: 
+ * <a href="http://askubuntu.com/questions/440649/how-to-disable-ipv6-in-ubuntu-14-04">How to disable IPv6 in Ubuntu 14.04?</a>
+ *
+ */

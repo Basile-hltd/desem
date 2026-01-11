@@ -1,0 +1,61 @@
+/**
+ * @page devenv Development Environment
+ * In order to accomplish the practical work goals of the DeSEm MAS module, you will need to 
+ * program for your computer and an ARM Cortex-M4 MCU (STM32L476RG) using exclusively open-source 
+ * development tools. 
+ * The following tools are needed for the development:
+ *
+ * @section umlet UMLet
+ * @image html umlet-screenshot.png
+ *
+ * UMLet is an open source UML modeling tool and includes support for all standard 
+ * UML 2.1 diagrams.
+ *
+ * We will use UMLet during the specification, analysis and design of the DeSenet software.
+ *
+ * @section qt_creator_ide Qt Creator
+ * @image html qt-creator-01.png
+ *
+ * The already well known Qt Creator is used to develop and run the DeseNet Sensor application in
+ * the simulation enviroment (see Mesh Simulator below).
+ *
+ * @section stm32cubeide STM32CubeIDE
+ * @image html stm32cubeide-01.png
+ *
+ * STM32CubeIDE is a development environment based on Eclipse provided by STMicroelectronics. It allows
+ * not only to edit, build and debug the project, but also to configure the MCU peripherals and generate
+ * the according initialisation code.
+ *
+ * @section meshsimulator Mesh Simulator
+ * @image html mesh-simulator-screenshot.png
+ *
+ * Mesh Simulator offers a very convenient way to simulate wired or wireless networks. It was 
+ * developed at the HES-SO Valais in order to simulate and test routing protocols for mesh networks.
+ *
+ * We will use the Mesh Simulator to simulate the wireless network during development phase on
+ * the computer.
+ *
+ * We will provide executables to run the Mesh Simulator on Windows, macOS and Ubuntu. 
+ *
+ * Do not forget to load the provided configuration file 'DeseNET.msim' using menu 'File -> Open Simulation...' to load
+ * the right simulation parameters.
+ *
+ * @section desenettestbench DeseNET Test Bench
+ * @image html desenet-testbench-01.png
+ *
+ * The DeseNET Test Bench (gattering the provided sensor data send from the sensors) is also as an executable for the three 
+ * popular operating systems.
+ * 
+ * After launching the application you need to select the <i>MeshSim Network</i> interface to connect to the the Mesh Simulator 
+ * or a serial port to connect to a gateway hardware collecting the sensor data over wireless communication.
+ *
+ * @section desent_sensor_app_demo Sensor Application Demo
+ * @image html desenet-sensor-app-demo-02.png
+ * 
+ * With the <i>Sensor Application Demo</i> we provide a possibility to check and compare the simulation environment. Using
+ * this application you can check if the <i>Mesh Simulator</i> together with the <i>Test Bench</i> is working properly. You may also use
+ * this application to verify and compare the frames send by this application to find formatting errors in the frames send by your sensor
+ * application.
+ *
+ * Also the <i>Sensor Application Demo</i> is provided as executable to you.
+ */
