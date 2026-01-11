@@ -47,8 +47,7 @@ void NetworkEntity::svSyncRequest(AbstractApplication* pAbstractApplication){
 }
 
 void NetworkEntity::svPublishRequest(AbstractApplication* pAbstractApplication, SvGroup group){
-    applicationPublishersArray[0] = pAbstractApplication;
-    this->group = group;
+    applicationPublishersArray[group] = pAbstractApplication;
 }
 
 void NetworkEntity::evPublishRequest(EvId id, const SharedByteBuffer & evData){
@@ -91,20 +90,27 @@ void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager & timeSlotManager, c
     switch (signal)
     {
     case ITimeSlotManager::CYCLE_START:
-        std::cout << "cycle start" << std::endl;
         break;
     case ITimeSlotManager::OWN_SLOT_START:
     {
-        std::cout << "slot start : number -> " << (int)(slotNumber()) << std::endl;
 
-        SharedByteBuffer data(6);
-        applicationPublishersArray[0]->svPublishIndication(group, data);
+    	MultiPDU mpdu_frame = MultiPDU();
 
-        MultiPDU mpdu_frame = MultiPDU();
+    	for(uint8_t i = 0; i < applicationPublishersArray.size(); i++){
+    		if(lastGrouMask[i]){
 
-        if(!mpdu_frame.Add_SV_ePDU(group, data)){
-            std::cout << "MPDU_Frame Add_SV_ePDU error" <<std::endl;
-        }
+                if(applicationPublishersArray[i] == nullptr){
+                    continue;
+                }
+
+    			SharedByteBuffer data(6);
+    			applicationPublishersArray[i]->svPublishIndication(i, data);
+
+    			if(!mpdu_frame.Add_SV_ePDU(i, data)){
+					//std::cout << "MPDU_Frame Add_SV_ePDU error" <<std::endl;
+				}
+    		}
+    	};
 
         while (!eventElementList.empty()) {
             EventElement front_element = eventElementList.front();
@@ -131,10 +137,8 @@ void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager & timeSlotManager, c
     }
     break;
     case ITimeSlotManager::OWN_SLOT_FINISH:
-        std::cout << "slot end" << std::endl;
         break;
     case ITimeSlotManager::CYCLE_FINISH:
-        std::cout << "cycle finish" << std::endl;
         break;
     }
 }
@@ -156,6 +160,8 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver & driver, const uint32_t re
         {
             desenet::Beacon beacon = desenet::Beacon(frame);
             timeSlotManager().onBeaconReceived(beacon.slotDuration());
+
+            lastGrouMask = beacon.svGroupMask();
 
             auto iterator = applicationSyncList.begin();
 

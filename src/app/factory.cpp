@@ -87,7 +87,6 @@ void Factory::buildApplication()
     //
     // Initialize relations
     //
-
     board::Joystick::instance().setObserver(&joystickapplication());
 
 #ifdef USE_DISPLAY

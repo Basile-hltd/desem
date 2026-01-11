@@ -11,11 +11,10 @@ void Joystickapplication::initialize(){
 }
 
 void Joystickapplication::start(){
-    //std::cout << "Joaystick start" << std::endl;
+    //std::cout << "Joaysti11ck start" << std::endl;
 }
 
 void Joystickapplication::onPositionChange(IJoystick::Position position){
-    (void)(position);
     //std::cout << "Joaystick onPositionChange" << std::endl;
 
     IJoystick::PressedButtons pressedButton = position.pressedButtons;

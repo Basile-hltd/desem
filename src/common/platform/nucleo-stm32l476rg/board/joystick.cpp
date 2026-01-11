@@ -16,7 +16,7 @@ Joystick::Joystick()
 	_bInitialized = false;
 	_pObserver = NULL;
 	_position.position = Invalid;
-	_currentState = STATE_INITIAL;
+	_currentState = STATE_CHECK_JOYSTICK;
 	_timeoutActive = false;
 }
 
@@ -26,7 +26,7 @@ Joystick::Joystick(const Joystick &)
 	_bInitialized = false;
 	_pObserver = NULL;
 	_position.position = Invalid;
-	_currentState = STATE_INITIAL;
+	_currentState = STATE_CHECK_JOYSTICK;
 }
 
 bool Joystick::initialize()

@@ -7,7 +7,6 @@
 #include "interfaces/ijoystick.h"
 #include "interfaces/ijoystickobserver.h"
 #include "platform-config.h"
-#include <iostream>
 
 namespace app
 {

@@ -4,7 +4,6 @@
 #include <assert.h>
 #include <list>
 #include <array>
-#include <iostream>
 #include <iomanip>
 #include "platform-config.h"
 #include "desenet/desenet.h"
@@ -103,8 +102,9 @@ private:
     ApplicationSyncList applicationSyncList;
     ApplicationPublishersArray applicationPublishersArray;
 
-    SvGroup group;
     EventElementList eventElementList;
+
+    SvGroupMask lastGrouMask;
 };
 
 } // sensor
